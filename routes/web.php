@@ -19,14 +19,18 @@ use App\Livewire\Profile\UserProfile;
 |
 */
 
-Route::get('/', Beranda::class)->name('beranda-tamu');
-Route::get('/beranda', Beranda::class)->name('beranda');
+Route::get('/', [Beranda::class,'render'])->name('beranda-tamu');
+Route::get('/beranda', [Beranda::class,'render'])->name('beranda');
+
+// User Login
 Route::get('/login', LoginUser::class)->name('login');
-Route::get('/logout', [LoginUser::class,'logout']);
+Route::get('/logout', [LoginUser::class,'logout'])->name('logout');
+
+// Register User
 Route::get('/register', RegisterUser::class)->name('register');
 
 // PIC 
 Route::get('/pic', Pic::class);
 
-// User Profiel
+// User Profile
 Route::get('/profile', UserProfile::class);

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Session;
 
 class LoginUser extends Component
 {
@@ -21,24 +22,26 @@ class LoginUser extends Component
             'npp' => $this->npp,
             'password' => $this->password
         ])){
-            // $this->session()->regenerate();
             return $this->redirect('beranda');
         }else{
-            // return $this->validate();
-            session()->flash('failure', 'npp atau password salah');
+            return session()->flash('failure', 'npp atau password salah');
         }
     }
 
     public function logout()
     {
+        Session::flush();
         auth()->logout();
-        return redirect('/login');
+        // $this->session()->invalidate();
+        Session::invalidate();
+        // $this->session()->regenerateToken();
+        return $this->redirect('login');
     }
 
     public function render()
     {
         if(auth()->check()){
-            return $this->redirect('/beranda');
+            return $this->redirect('beranda');
         }else{
             return view('livewire.login-user');
         }
