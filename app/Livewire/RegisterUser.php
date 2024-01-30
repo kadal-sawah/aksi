@@ -33,7 +33,7 @@ class RegisterUser extends Component
                     $profile = UserProfile::create([
                         'user_id' => $user->id,
                     ]);
-                    session()->flash('success', 'npp berhasil di buat');
+                    session()->flash('success', 'pic berhasil di buat');
                     $this->redirect('/login');
                 }else{
                     session()->flash('failure', 'terjadi kesalahan');

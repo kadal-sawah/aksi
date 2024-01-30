@@ -3,39 +3,50 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" 
-        href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" 
-        integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" 
-        crossorigin="anonymous">
-        <link rel="stylesheet" href="/css/styles.css">
+
+        <link rel="stylesheet" href="{{ asset("vendor/adminlte/dist/css/adminlte.min.css") }}">
+        <link rel="stylesheet" href="{{ asset("vendor/fontawesome-free/css/all.min.css") }}">
+        <link rel="stylesheet" href="{{ asset("vendor/overlayScrollbars/css/OverlayScrollbars.min.css") }}">
+
+        <script src="{{ asset("vendor/jquery/jquery.min.js") }}"></script>
+        <script src="{{ asset("vendor/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
+        <script src="{{ asset("vendor/adminlte/dist/js/adminlte.min.js") }}"></script>
+        <!-- <script src="{{asset("vendor\popper\popper.min.js")}}"></script> -->
+
         <title>{{ $title ?? 'Page Title' }}</title>
     </head>
+    @if(Route::is('login') or Route::is('register'))
+    <body class="login-page">
+    @elseif(Route::is('beranda'))
+    <body class="sidebar-mini">
+    @else
     <body>
+    @endif
+    
+        <!-- Wrapper -->
+        <div class="wrapper">
+            @auth
+            <!-- Navbar  -->
+            @include('components.layouts.navbar')
+            <!-- End Navbar  -->
 
-    <div class="header">
-        <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-            <a class="pure-menu-heading" href="#">RSU Pindad</a>
+            <!-- Sidebar -->
+            @include('components.layouts.sidebar')
+            <!-- End Sidebar -->
 
-            <ul class="pure-menu-list">
-                <li class="pure-menu-item pure-menu-selected">
-                    @if(Route::is('register'))
-                    <a href="/login" class="pure-menu-link" wire:navigate>Masuk</a>
-                    @endif
-                    @if(Route::is('login'))
-                    <a href="/register" class="pure-menu-link" wire:navigate>Registrasi</a>
-                    @endif
-                    @auth
-                    {{auth()->user()->npp}}
-                    <a href="/logout" class="pure-menu-link" wire:navigate>Keluar</a>
-                    @endauth
-                </li>
-            </ul>
+            <!-- Content -->
+            {{ $slot }}
+            <!-- End Content -->
+
+            <!-- Footer -->         
+            @include('components.layouts.footer')
+            <!-- End Footer -->
+
+            @endauth
+            @livewireScripts
+
         </div>
-    </div>
+        <!-- End Wrapper -->
 
-        {{ $slot }}
-    
-        @livewireScripts
-    
     </body>
 </html>

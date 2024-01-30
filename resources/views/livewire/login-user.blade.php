@@ -1,35 +1,56 @@
-<div class="splash-container">
-    <div class="splash">
-        <p class="splash-subhead">
-            <b>A</b><small>rahan Dire</small><b>ksi</b>
-        </p>
-        @if(session('success'))
-            <div class="button-xsmall button-success pure-button">
-                {{ session('success') }}
+<div class="login-box">
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('failure'))
+        <div class="alert alert-danger">
+            {{ session('failure') }}
+        </div>
+    @endif
+    
+    <!-- Login -->
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="#"><b>AKSI</b></a>
+        </div>
+        <div class="card">
+            <div class="card-body login-card-body">
+                <form wire:submit="login">
+                    <div class="input-group mb-3">
+                        <input wire:model="npp" type="text" class="form-control" placeholder="Npp">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+                    @error('npp') <p class="text text-danger">{{ $message }}</p> @enderror 
+                    <div class="input-group mb-3">
+                        <input wire:model="password" type="password" class="form-control" placeholder="Password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    @error('password') <p class="text text-danger">{{ $message }}</p> @enderror 
+                    <div class="row">
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">masuk</button>
+                        </div>
+                    </div>
+                </form>
+                <p class="mb-1">
+                    <a href="#">lupa password</a>
+                </p>
+                <p class="mb-0">
+                    <a href="/register" class="text-center">register</a>
+                </p>
             </div>
-        @endif
-        @if(session('failure'))
-            <div class="button-xsmall button-error pure-button">
-                {{ session('failure') }}
-            </div>
-        @endif
-        
-        <form class="pure-form" wire:submit="login">
-        <fieldset>
-            <legend>Silahkan masuk</legend>
-            <input type="text" placeholder="masukan npp" wire:model="npp">
-            @error('npp') <p class="button-xsmall button-error pure-button">{{ $message }}</p> @enderror 
-        
-            <input type="password" placeholder="masukan password" wire:model="password">
-            @error('password') <p class="button-xsmall button-error pure-button">{{ $message }}</p> @enderror 
-        
-            <button type="submit" class="pure-button pure-button-primary">masuk</button>
-        </fieldset>
-        </form>
+        </div>
     </div>
-
-    <div class="footer l-box is-center">
-        &copy;2024 RSU Pindad Medika Utama,&nbsp; <a href="https://purecss.io/">pureCss</a>&nbsp;by the Pure Team.
-    </div>
+    <!-- End Login -->
 
 </div>
