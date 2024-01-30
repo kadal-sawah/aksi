@@ -21,18 +21,14 @@ class LoginUser extends Component
     public function login()
     {
         $this->validate();
-        // if(auth()->attempt([
         if(Auth::attempt([
             'npp' => $this->npp,
             'password' => $this->password
         ])){
             Session::regenerate();
-            // $this->session()->regenerate();
             return redirect('beranda');
             redirect('beranda');
-            // $this->redirect(Beranda::class);
         }else{
-            // return $this->validate();
             session()->flash('failure', 'npp atau password salah');
         }
     }
@@ -47,10 +43,10 @@ class LoginUser extends Component
 
     public function render()
     {
-        if(auth()->check()){
-            return redirect('beranda');
-        }else{
+        if(!Auth::check()){
             return view('livewire.login-user');
+        }else{
+            redirect('beranda');
         }
     }
 }

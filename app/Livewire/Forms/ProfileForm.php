@@ -10,10 +10,8 @@ use App\Models\UserProfile as Profile;
 class ProfileForm extends Form
 {
     public ?Profile $profile;
-    // #[Validate('required')]
-    // #[Validate('required')]
     public $user_id = '';
-    public $pic_id = '';
+    public $pic_id = 1;
     public $nama_profile = '';
     public $nomor_handphone_profile = '';
     public $email = '';
@@ -25,7 +23,6 @@ class ProfileForm extends Form
                 Rule::unique('user_profile')->ignore($this->user_id),
             ],
             'pic_id' => [
-                'bail',
                 'required',
             ],
             'nama_profile' => [
@@ -55,22 +52,31 @@ class ProfileForm extends Form
 
     public function update()
     {
-        $this->validate();
-        $userId = auth()->user()->id;
-        $findId = Profile::where('user_id', $userId)->first();
+        try {
+            $this->validate();
+            $userId = auth()->user()->id;
+            $findId = Profile::where('user_id', $userId)->first();
+            $updateProfile = Profile::find($findId->id);
+            // $updateProfile->user_id = false;
+            $updateProfile->update(
+                $this->only([
+                    'pic_id',
+                    'nama_profile',
+                    'nomor_handphone_profile',
+                    'email',
+                ])
+            );
+            if($updateProfile == true){
+                session()->flash('success', 'profile berhasil diperbarui');
+                $this->reset();
+            }else{
+                session()->flash('failure', 'terjadi kesalahan');
+            }
+        } catch (\Illuminate\Database\QueryException $exception) {
+            $errorInfo = $exception->getMessage();
+            return $errorInfo;;
+        }
 
-        // dd($findId->id);
-        $updateProfile = Profile::find($findId->id);
-        // $updateProfile->user_id = false;
-        $updateProfile->update(
-            // $this->all()
-            $this->only([
-                'pic_id',
-                'nama_profile',
-                'nomor_handphone_profile',
-                'email',
-            ])
-        );
-        $this->reset();
+        
     }
 }

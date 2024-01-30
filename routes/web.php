@@ -20,7 +20,7 @@ use App\Livewire\Profile\UserProfile;
 |
 */
 
-Route::get('/', [Beranda::class, 'render'])->name('beranda');
+Route::get('/', [BerandaController::class, 'render'])->name('beranda');
 // Route::get('/beranda', [Beranda::class, 'render'])->name('beranda');
 Route::get('/beranda', [BerandaController::class, 'render'])->name('beranda');
 Route::get('/login', LoginUser::class)->name('login');
